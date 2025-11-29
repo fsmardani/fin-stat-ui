@@ -1,4 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+/* docx-preview styles */
+.docx-wrapper {
+  font-family: 'Vazirmatn', system-ui, sans-serif !important;
+  direction: rtl !important;
+  text-align: right !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  min-height: 400px !important;
+}
+
+.docx-wrapper * {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.docx-container {
+  width: 100% !important;
+  min-height: 400px !important;
+  display: block !important;
+  visibility: visible !important;
+}
 
 :root {
   --background: #ffffff;
@@ -19,8 +44,81 @@
   }
 }
 
+html {
+  direction: rtl;
+  font-family: 'Vazirmatn', system-ui, sans-serif;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Vazirmatn', system-ui, sans-serif;
+  direction: rtl;
+}
+
+@layer components {
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* RTL specific utilities */
+  .rtl-flip {
+    transform: scaleX(-1);
+  }
+
+  .text-rtl {
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Form element alignment */
+  input,
+  select,
+  textarea {
+    line-height: 1.25rem;
+    vertical-align: baseline;
+  }
+
+  /* Select dropdown styling */
+  select {
+    color: #111827 !important;
+    background-color: #ffffff !important;
+  }
+
+  select option {
+    color: #111827 !important;
+    background-color: #ffffff !important;
+  }
+
+  select option:hover {
+    background-color: #f3f4f6 !important;
+  }
+
+  .flex-rtl {
+    flex-direction: row-reverse;
+  }
+
+  .space-x-rtl> :not([hidden])~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+    margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+    margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .space-x-rtl-2> :not([hidden])~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+    margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+    margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .space-x-rtl-3> :not([hidden])~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+    margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+    margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .space-x-rtl-4> :not([hidden])~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+    margin-right: calc(1rem * var(--tw-space-x-reverse));
+    margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+  }
 }
