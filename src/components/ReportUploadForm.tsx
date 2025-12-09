@@ -212,7 +212,6 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                     reportTypeId: uploadResponse.data.file.reportTypeId,
                     uploadDate: new Date(uploadResponse.data.file.uploadDate),
                     analysisStatus: 'processing',
-                    analysisResult: undefined,
                     formData: uploadResponse.data.file.formData || formData
                 });
             } else if (selectedReportType === '1') {
@@ -254,7 +253,6 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                             reportTypeId: uploadResponse.data.file.reportTypeId,
                             uploadDate: new Date(uploadResponse.data.file.uploadDate),
                             analysisStatus: 'processing',
-                            analysisResult: undefined,
                             formData: { ...(uploadResponse.data.file.formData || formData), year }
                         });
                     }
@@ -294,7 +292,6 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                         reportTypeId: uploadResponse.data.file.reportTypeId,
                         uploadDate: new Date(uploadResponse.data.file.uploadDate),
                         analysisStatus: 'processing',
-                        analysisResult: undefined,
                         formData: uploadResponse.data.file.formData || formData
                     });
                 }
