@@ -184,12 +184,13 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
             
             // For report type 2 (Audit Report), upload only the single Excel file
             if (selectedReportType === '2') {
-                if (!selectedFiles.financialStatement) {
+                const financialStatementFile = selectedFiles.financialStatement;
+                if (!financialStatementFile) {
                     throw new Error('فایل صورت مالی انتخاب نشده است');
                 }
                 
                 const uploadResponse = await apiClient.uploadFile(
-                    selectedFiles.financialStatement,
+                    financialStatementFile,
                     selectedCompany,
                     selectedReportType,
                     formData
