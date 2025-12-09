@@ -72,13 +72,13 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
     const handleNumberOfYearsChange = (value: number) => {
         const num = Math.max(1, Math.min(10, value)); // Limit between 1 and 10
         setNumberOfYears(num);
-        
+
         // Initialize years array
-        const newYears = Array(num).fill('').map((_, index) => 
+        const newYears = Array(num).fill('').map((_, index) =>
             years[index] || ''
         );
         setYears(newYears);
-        
+
         // Initialize yearFiles for new years
         const newYearFiles = { ...yearFiles };
         newYears.forEach(year => {
@@ -104,11 +104,11 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
         const newYears = [...years];
         newYears[index] = yearName;
         setYears(newYears);
-        
+
         // Update yearFiles mapping
         setYearFiles(prev => {
             const newYearFiles = { ...prev };
-            
+
             // If old year exists, move its files to new year name
             if (oldYear && newYearFiles[oldYear]) {
                 const files = newYearFiles[oldYear];
@@ -124,7 +124,7 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                     budget: null
                 };
             }
-            
+
             return newYearFiles;
         });
     };
@@ -161,10 +161,10 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
 
     const handleAnalyze = async () => {
         if (!selectedCompany || !selectedReportType) return;
-        
+
         // For type1, check if we have files for at least one year
         if (selectedReportType === '1') {
-            const hasAnyYearFiles = years.some(year => 
+            const hasAnyYearFiles = years.some(year =>
                 year && yearFiles[year] && yearFiles[year].financialStatement
             );
             if (!hasAnyYearFiles) {
@@ -181,14 +181,14 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
 
         try {
             const uploadedFiles: UploadedFile[] = [];
-            
+
             // For report type 2 (Audit Report), upload only the single Excel file
             if (selectedReportType === '2') {
                 const financialStatementFile = selectedFiles.financialStatement;
                 if (!financialStatementFile) {
                     throw new Error('فایل صورت مالی انتخاب نشده است');
                 }
-                
+
                 const uploadResponse = await apiClient.uploadFile(
                     financialStatementFile,
                     selectedCompany,
@@ -212,14 +212,14 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                     reportTypeId: uploadResponse.data.file.reportTypeId,
                     uploadDate: new Date(uploadResponse.data.file.uploadDate),
                     analysisStatus: 'processing',
-                    analysisResult: null,
+                    analysisResult: undefined,
                     formData: uploadResponse.data.file.formData || formData
                 });
             } else if (selectedReportType === '1') {
                 // For report type 1, upload files for each year
                 for (const year of years) {
                     if (!year || !yearFiles[year]) continue;
-                    
+
                     const yearFilePackage = yearFiles[year];
                     const filesToUpload = [
                         { file: yearFilePackage.financialStatement, type: 'صورت مالی' },
@@ -254,7 +254,7 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                             reportTypeId: uploadResponse.data.file.reportTypeId,
                             uploadDate: new Date(uploadResponse.data.file.uploadDate),
                             analysisStatus: 'processing',
-                            analysisResult: null,
+                            analysisResult: undefined,
                             formData: { ...(uploadResponse.data.file.formData || formData), year }
                         });
                     }
@@ -294,7 +294,7 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                         reportTypeId: uploadResponse.data.file.reportTypeId,
                         uploadDate: new Date(uploadResponse.data.file.uploadDate),
                         analysisStatus: 'processing',
-                        analysisResult: null,
+                        analysisResult: undefined,
                         formData: uploadResponse.data.file.formData || formData
                     });
                 }
@@ -341,12 +341,12 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
     };
 
     const canProceedToForm = selectedCompany && selectedReportType && !currentReportType?.disabled;
-    
+
     // For type1, check if we have at least one year with financial statement
-    const hasRequiredFilesForType1 = selectedReportType === '1' 
+    const hasRequiredFilesForType1 = selectedReportType === '1'
         ? years.some(year => year && yearFiles[year]?.financialStatement)
         : selectedFiles.financialStatement;
-    
+
     const canProceedToPreview = hasRequiredFilesForType1 && canProceedToForm &&
         currentReportType?.formFields.every(field => !field.required || formData[field.id]);
     const canProceedToAnalysis = hasRequiredFilesForType1 && canProceedToForm &&
@@ -436,7 +436,7 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                     {canProceedToForm && (
                         <div className="space-y-6">
                             <h3 className="text-lg font-medium text-gray-900 text-rtl">آپلود فایل‌ها</h3>
-                            
+
                             {/* For report type 2 (Audit Report), show single file upload */}
                             {selectedReportType === '2' ? (
                                 <div className="space-y-2">
@@ -508,7 +508,7 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                                             <h4 className="text-md font-semibold text-gray-900 text-rtl mb-3">
                                                 فایل‌های سال {year}
                                             </h4>
-                                            
+
                                             {/* صورت مالی - Mandatory */}
                                             <div className="space-y-2">
                                                 <div className="flex items-center justify-between">
@@ -724,7 +724,7 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                                         <h4 className="text-md font-semibold text-gray-900 text-rtl mb-3">
                                             پیش‌نمایش فایل‌های سال {year}
                                         </h4>
-                                        
+
                                         {/* Preview صورت مالی */}
                                         {yearFiles[year]?.financialStatement && (
                                             <div className="space-y-2">
@@ -833,17 +833,17 @@ export const ReportUploadForm: React.FC<ReportUploadFormProps> = ({
                                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                                 </div>
                                 <h4 className="text-lg font-medium text-gray-900 mb-2 text-rtl">
-                                    {selectedReportType === '2' 
-                                        ? 'فایل با موفقیت آپلود شد' 
+                                    {selectedReportType === '2'
+                                        ? 'فایل با موفقیت آپلود شد'
                                         : selectedReportType === '1'
-                                        ? `${uploadedFilesList.length} فایل برای ${years.filter(y => y).length} سال با موفقیت آپلود شدند`
-                                        : 'فایل‌ها با موفقیت آپلود شدند'}
+                                            ? `${uploadedFilesList.length} فایل برای ${years.filter(y => y).length} سال با موفقیت آپلود شدند`
+                                            : 'فایل‌ها با موفقیت آپلود شدند'}
                                 </h4>
                                 <p className="text-sm text-gray-600 mb-4 text-rtl">
                                     وضعیت: در حال پردازش
                                 </p>
                                 <p className="text-sm text-gray-500 text-rtl">
-                                    {selectedReportType === '2' 
+                                    {selectedReportType === '2'
                                         ? 'پس از تأیید و اتمام زمان پردازش، می‌توانید پیش‌نویس آماده شده را دانلود و مشاهده کنید'
                                         : 'پس از تأیید و اتمام زمان پردازش، می‌توانید نتیجه را از بخش فایل‌ها دانلود کنید'}
                                 </p>
